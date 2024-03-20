@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<launchConfiguration type="org.eclipse.shellwax.shlaunchonfigtype">
+    <stringAttribute key="org.eclipse.debug.core.ATTR_WORKING_DIRECTORY" value="/home/grinaldi/2A/TLA/workspace/fr.n7.stl.block"/>
+    <stringAttribute key="org.eclipse.shellwax.launch.program" value="/home/grinaldi/2A/TLA/workspace/fr.n7.stl.block/run.sh"/>
+</launchConfiguration>

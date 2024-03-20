@@ -1,0 +1,7 @@
+INDEX VERSION 1.131+/home/grinaldi/2A/TLA/workspace/.metadata/.plugins/org.eclipse.jdt.core
+343615862.index
+2610183317.index
+1865797976.index
+458773471.index
+321414870.index
+1467419864.index

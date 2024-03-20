@@ -1,0 +1,17 @@
+test {
+	int i = 1;
+	i = (i + 1);
+	print i;
+	const int a = 0;
+	boolean b = true;
+	while (b) {
+	}
+	if ( b ) {
+		int x = 2;
+	}
+	else {
+		print b;
+		print x;
+	} 
+	
+}
