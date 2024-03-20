@@ -50,7 +50,14 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
-		return this.condition.collectAndBackwardResolve(scope) && this.thenBranch.collect(scope) && this.elseBranch.collect(scope);
+		if (this.elseBranch == null) {
+			return this.condition.collectAndBackwardResolve(scope) && this.thenBranch.collect(scope);
+	
+		}
+		else {
+			return this.condition.collectAndBackwardResolve(scope) && this.thenBranch.collect(scope) && this.elseBranch.collect(scope);
+		}
+		
 		
 	}
 	
@@ -59,7 +66,14 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
-		return this.condition.fullResolve(scope) && this.thenBranch.resolve(scope) && this.elseBranch.resolve(scope);
+		if (this.elseBranch == null) {
+			return this.condition.fullResolve(scope) && this.thenBranch.resolve(scope);
+	
+		}
+		else {
+			return this.condition.fullResolve(scope) && this.thenBranch.resolve(scope) && this.elseBranch.resolve(scope);
+		}
+	
 	}
 
 	/* (non-Javadoc)
