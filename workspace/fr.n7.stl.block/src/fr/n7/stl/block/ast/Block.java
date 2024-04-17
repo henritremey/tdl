@@ -63,7 +63,7 @@ public class Block {
 		boolean result = true;
 		this.locals = new SymbolTable(scope);
 		for (Instruction instruction : this.instructions) {
-			result = result && instruction.collectAndBackwardResolve(locals);
+			result = result && instruction.collectAndBackwardResolve(this.locals);
 		}
 		System.out.println("After collect :" + locals);
 		return result;
@@ -79,7 +79,7 @@ public class Block {
 	public boolean resolve(HierarchicalScope<Declaration> _scope) {
 		boolean result = true;
 		for (Instruction instruction : this.instructions) {
-			result = result && instruction.fullResolve(locals);
+			result = result && instruction.fullResolve(this.locals);
 		}
 		System.out.println("After resolve :" + locals);
 		return result;
@@ -90,7 +90,11 @@ public class Block {
 	 * @return Synthesized True if the instruction is well typed, False if not.
 	 */	
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType is undefined in Block.");
+		boolean result = true;
+		for (Instruction instruction : this.instructions) {
+			result = result && instruction.checkType();
+		}
+		return result;
 	}
 
 	/**
@@ -100,7 +104,9 @@ public class Block {
 	 * @param _offset Inherited Current offset for the address of the variables.
 	 */	
 	public void allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory is undefined in Block.");
+		for (Instruction instruction : this.instructions) {
+			instruction.allocateMemory(_register, _offset);
+		}
 	}
 
 	/**
@@ -109,8 +115,13 @@ public class Block {
 	 * @param _factory Inherited Factory to build AST nodes for TAM code.
 	 * @return Synthesized AST for the generated TAM code.
 	 */
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics generateCode is undefined in Block.");
+	public Fragment getCode(TAMFactory factory) {
+		// TO DO : juste mit ca provisoirement
+		Fragment fragments = null;
+		for (Instruction instruction : this.instructions) {
+			fragments = instruction.getCode(factory);
+		}
+		return fragments;
 	}
 
 }

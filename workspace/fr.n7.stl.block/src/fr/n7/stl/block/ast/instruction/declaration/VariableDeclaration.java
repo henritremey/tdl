@@ -12,6 +12,8 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.TAMInstruction;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Abstract Syntax Tree node for a variable declaration instruction.
@@ -125,23 +127,29 @@ public class VariableDeclaration implements Declaration, Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType is undefined in VariableDeclaration.");
+		return this.type.compatibleWith(this.value.getType());
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory is undefined in VariableDeclaration.");
+	public int allocateMemory(Register register, int offset) {
+		this.offset = offset;
+		this.register = register;
+		return this.offset + this.type.length();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode is undefined in VariableDeclaration.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = new FragmentImpl();
+		f.add((TAMInstruction) factory.createPush(this.type.length()));
+		f.append(this.value.getCode(factory));
+		f.add((TAMInstruction) factory.createStore(register, offset, this.type.length()));
+		return f;
 	}
 
 }

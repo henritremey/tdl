@@ -12,6 +12,8 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.TAMInstruction;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a constant declaration instruction.
@@ -105,23 +107,23 @@ public class ConstantDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in ConstantDeclaration.");
+		return this.type.compatibleWith(this.value.getType());
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in ConstantDeclaration.");
+	public int allocateMemory(Register register, int offset) {
+		return offset + this.type.length();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in ConstantDeclaration.");
+	public Fragment getCode(TAMFactory factory) {
+		return new FragmentImpl();
 	}
 
 }

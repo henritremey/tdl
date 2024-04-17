@@ -10,9 +10,12 @@ import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
+import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a conditional instruction.
@@ -52,7 +55,6 @@ public class Conditional implements Instruction {
 	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
 		if (this.elseBranch == null) {
 			return this.condition.collectAndBackwardResolve(scope) && this.thenBranch.collect(scope);
-	
 		}
 		else {
 			return this.condition.collectAndBackwardResolve(scope) && this.thenBranch.collect(scope) && this.elseBranch.collect(scope);
@@ -81,23 +83,44 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in Conditional.");
+		if (elseBranch == null) {
+			return condition.getType().compatibleWith(AtomicType.BooleanType) && thenBranch.checkType();
+		}
+		else {
+			return condition.getType().compatibleWith(AtomicType.BooleanType) && thenBranch.checkType() && elseBranch.checkType();
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in Conditional.");
+	public int allocateMemory(Register register, int offset) {
+		if (elseBranch == null) {
+			this.thenBranch.allocateMemory(register, offset);
+		}
+		else {
+			this.thenBranch.allocateMemory(register, offset);
+			this.elseBranch.allocateMemory(register, offset);
+		}
+		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Conditional.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = new FragmentImpl();
+		if (this.elseBranch == null) {
+			f.append(this.thenBranch.getCode(factory));
+		}
+		else {
+			f.append(this.thenBranch.getCode(factory));
+			f.append(this.elseBranch.getCode(factory));
+		}
+		return f;
+		
 	}
 
 }

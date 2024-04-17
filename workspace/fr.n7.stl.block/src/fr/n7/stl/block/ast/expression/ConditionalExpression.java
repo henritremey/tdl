@@ -49,19 +49,30 @@ public class ConditionalExpression implements Expression {
 	 * @see fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in ConditionalExpression.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		if (this.elseExpression == null) {
+			return this.condition.collectAndBackwardResolve(scope) && this.thenExpression.collectAndBackwardResolve(scope);
+		}
+		else {
+			return this.condition.collectAndBackwardResolve(scope) && this.elseExpression.collectAndBackwardResolve(scope) && this.thenExpression.collectAndBackwardResolve(scope);
+		}	
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in ConditionalExpression.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		if (this.elseExpression == null) {
+			return this.condition.fullResolve(scope) && this.thenExpression.fullResolve(scope);
+	
+		}
+		else {
+			return this.condition.fullResolve(scope) && this.thenExpression.fullResolve(scope) && this.elseExpression.fullResolve(scope);
+		}
 	}
 
-	/* (non-Javadoc)
+	/* (non-Jathrow new SemanticsUndefinedException( "Semantics getType is undefined in ConditionalExpression.");vadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
@@ -74,7 +85,12 @@ public class ConditionalExpression implements Expression {
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in ConditionalExpression.");
+		if (this.elseExpression == null) {
+			return thenExpression.getType();
+		}
+		else {
+			return thenExpression.getType().merge(elseExpression.getType());
+		}
 	}
 
 	/* (non-Javadoc)

@@ -1,0 +1,9 @@
+test {
+typedef int Entier;
+int x = 1;
+Entier i = 1;
+x = i;
+i = x;
+typedef < Entier, Entier> PaireEntier;
+PaireEntier p = < i, 2>;
+}

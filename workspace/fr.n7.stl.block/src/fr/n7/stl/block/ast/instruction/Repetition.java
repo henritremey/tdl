@@ -9,6 +9,7 @@ import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.scope.Scope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
@@ -40,16 +41,16 @@ public class Repetition implements Instruction {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in Repetition.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		return this.condition.collectAndBackwardResolve(scope) && this.body.collect(scope);
 	}
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in Repetition.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.condition.fullResolve(scope) && this.body.resolve(scope);
 	}
 
 	/* (non-Javadoc)
@@ -57,7 +58,7 @@ public class Repetition implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType undefined in Repetition.");
+		return this.condition.getType().compatibleWith(AtomicType.BooleanType) && this.body.checkType();
 	}
 
 

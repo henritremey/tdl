@@ -64,7 +64,7 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in Assignment.");
+		return this.value.getType();
 	}
 
 	/* (non-Javadoc)
@@ -72,15 +72,15 @@ public class Assignment implements Instruction, Expression {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in Assignment.");
+		return this.value.getType().compatibleWith(assignable.getType());
 	}
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in Assignment.");
+	public int allocateMemory(Register register, int offset) {
+		return 0;
 	}
 
 	/* (non-Javadoc)

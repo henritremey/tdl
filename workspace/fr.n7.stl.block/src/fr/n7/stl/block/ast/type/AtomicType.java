@@ -35,6 +35,9 @@ public enum AtomicType implements Type {
 	 */
 	@Override
 	public boolean compatibleWith(Type _other) {
+		if (_other instanceof NamedType) {
+			return _other.compatibleWith(this);
+		}
 		if (this.equalsTo(_other)) {
 			return true;
 		} else {

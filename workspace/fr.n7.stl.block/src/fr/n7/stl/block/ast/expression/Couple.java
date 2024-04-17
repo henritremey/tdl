@@ -10,6 +10,7 @@ import fr.n7.stl.block.ast.type.CoupleType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Abstract Syntax Tree node for building a couple value.
@@ -51,8 +52,8 @@ public class Couple implements Expression {
 	 */
 	@Override
 	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		boolean _first = this.first.fullResolve(_scope);
-		boolean _second = this.second.fullResolve(_scope);
+		boolean _first = this.first.collectAndBackwardResolve(_scope);
+		boolean _second = this.second.collectAndBackwardResolve(_scope);
 		return _first && _second;
 	}
 	
@@ -78,8 +79,11 @@ public class Couple implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Couple.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = new FragmentImpl();
+		f.append(this.first.getCode(factory));
+		f.append(this.second.getCode(factory));
+		return f;
 	}
 
 }

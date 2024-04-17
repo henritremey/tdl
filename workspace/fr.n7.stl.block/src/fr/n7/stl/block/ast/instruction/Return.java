@@ -36,16 +36,16 @@ public class Return implements Instruction {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in Return.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		return this.value.collectAndBackwardResolve(scope);
 	}
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in Return.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.value.fullResolve(scope);
 	}
 
 	/* (non-Javadoc)
@@ -53,7 +53,7 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException("Semantics checkType undefined in Return.");
+		return true; // on peut return tout type 
 	}
 
 	/* (non-Javadoc)

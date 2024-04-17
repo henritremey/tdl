@@ -48,16 +48,22 @@ public class TypeDeclaration implements Declaration, Instruction {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in TypeDeclaration.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		if (scope.accepts(this) ) {
+			scope.register(this);
+			return true;
+		}
+		else {
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in TypeDeclaration.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.type.resolve(scope);
 	}
 
 	/**

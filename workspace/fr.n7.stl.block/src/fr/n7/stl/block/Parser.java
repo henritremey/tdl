@@ -23,6 +23,8 @@ import fr.n7.stl.block.ast.scope.*;
 import fr.n7.stl.block.ast.type.*;
 import fr.n7.stl.block.ast.type.declaration.*;
 import fr.n7.stl.util.*;
+import fr.n7.stl.tam.ast.*;
+import fr.n7.stl.tam.ast.impl.*;
 import java_cup.runtime.ComplexSymbolFactory.Location;
 import java_cup.runtime.XMLElement;
 
@@ -755,6 +757,29 @@ class CUP$Parser$actions {
 						System.out.println("Resolve succeeded.");
 					} else {
 						System.out.println("Resolve failed." + tds);
+					}
+					if (bloc.checkType()) {
+						System.out.println("Type succeeded.");
+						bloc.allocateMemory(Register.CB, CUP$Parser$top);
+						System.out.println("Allocate Memory : CB succeed");
+						bloc.allocateMemory(Register.CP, CUP$Parser$top);
+						System.out.println("Allocate Memory : CP succeed");
+						bloc.allocateMemory(Register.CT, CUP$Parser$top);
+						System.out.println("Allocate Memory : CT succeed");
+						bloc.allocateMemory(Register.HB, CUP$Parser$top);
+						System.out.println("Allocate Memory : HB succeed");
+						bloc.allocateMemory(Register.HT, CUP$Parser$top);
+						System.out.println("Allocate Memory : HT succeed");
+						bloc.allocateMemory(Register.LB, CUP$Parser$top);
+						System.out.println("Allocate Memory : LB succeed");
+						bloc.allocateMemory(Register.SB, CUP$Parser$top);
+						System.out.println("Allocate Memory : SB succeed");
+						bloc.allocateMemory(Register.ST, CUP$Parser$top);
+						System.out.println("Allocate Memory : ST succeed");
+						bloc.getCode(new TAMFactoryImpl());
+					}
+					else {
+						System.out.println("Type failed." + tds);
 					}
 				} else {
 					System.out.println("Collect failed : " + tds);
