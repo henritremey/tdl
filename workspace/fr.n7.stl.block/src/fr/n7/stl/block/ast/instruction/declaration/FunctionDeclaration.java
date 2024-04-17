@@ -8,13 +8,17 @@ import java.util.List;
 
 import fr.n7.stl.block.ast.Block;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
+import fr.n7.stl.block.ast.expression.Expression;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.scope.SymbolTable;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Abstract Syntax Tree node for a function declaration.
@@ -38,16 +42,20 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	protected List<ParameterDeclaration> parameters;
 	
 	/**
+	 * AST node for the body of the function
+	 */
+	protected Block body;
+	
+	protected HierarchicalScope<Declaration> table;
+	
+	/**
 	 * @return the parameters
 	 */
 	public List<ParameterDeclaration> getParameters() {
 		return parameters;
 	}
 
-	/**
-	 * AST node for the body of the function
-	 */
-	protected Block body;
+
 
 	/**
 	 * Builds an AST node for a function declaration
@@ -99,16 +107,27 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#collect(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in FunctionDeclaration.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		if (((HierarchicalScope<Declaration>)scope).accepts(this)) {
+            scope.register(this);
+            SymbolTable tableFonction = new SymbolTable(scope);
+            for (ParameterDeclaration parameter : this.parameters) {
+            	tableFonction.register(parameter);
+            }
+            this.table = tableFonction;
+            return this.body.collect(tableFonction);
+        } else {
+            Logger.error("La fonction " + this.name + " est défini plusieurs fois");
+            return false;
+        }
 	}
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in FunctionDeclaration.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.body.collect(this.table);
 	}
 
 	/* (non-Javadoc)
@@ -116,7 +135,14 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public boolean checkType() {
-		throw new SemanticsUndefinedException( "Semantics checkType is undefined in FunctionDeclaration.");
+		boolean res = true;
+        for(ParameterDeclaration parameterDeclaration : this.parameters) {
+            if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType)) {
+            	res = false;
+            	Logger.error(parameterDeclaration + " n'est pas compatible avec les autres paramètres.");
+            }
+        }
+        return res;
 	}
 
 	/* (non-Javadoc)
@@ -124,6 +150,7 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
+		//return 0;
 		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in FunctionDeclaration.");
 	}
 

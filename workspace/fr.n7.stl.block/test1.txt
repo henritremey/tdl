@@ -3,7 +3,7 @@ test1 {
 	const int j = 2;
 	< int, int> p = < 3, 4>;
 	int k = fst p;
-	if (  true ) {
+	if ( true ) {
 		int j = 5;
 		j = i * (snd p);
 		i = j + 1;

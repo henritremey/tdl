@@ -16,7 +16,7 @@ test {
 		if ( i + j > 10 ) {
 			const boolean p = false;
 			print p;
-			String j = "bonjout";
+			String j = "bonjour";
 		}
 	}
 	print j;

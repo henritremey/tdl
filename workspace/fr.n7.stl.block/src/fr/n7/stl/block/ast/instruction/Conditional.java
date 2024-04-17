@@ -111,14 +111,20 @@ public class Conditional implements Instruction {
 	 */
 	@Override
 	public Fragment getCode(TAMFactory factory) {
-		Fragment f = new FragmentImpl();
+		Fragment f = factory.createFragment();
+		int id = factory.createLabelNumber();
 		if (this.elseBranch == null) {
+			f.add(factory.createJumpIf("endif" + id, 0));
 			f.append(this.thenBranch.getCode(factory));
 		}
 		else {
+			f.add(factory.createJumpIf("else" + id, 0));
 			f.append(this.thenBranch.getCode(factory));
-			f.append(this.elseBranch.getCode(factory));
+            f.add(factory.createJump("endif" + id));
+            f.addSuffix("else" + id);
+            f.append(this.elseBranch.getCode(factory));
 		}
+		f.addSuffix("endif" + id);
 		return f;
 		
 	}

@@ -1,0 +1,27 @@
+test {
+	int max (int a, int b) {
+		if (a > b) {
+			return a;
+		}
+		else {
+			return b;
+		}
+	}
+	int min (int a, int b) {
+		if (a < b) {
+			return a;
+		}
+		else {
+			return b;
+		}
+	}
+
+	int difference (int a, int b, int c) {
+		return max (a, max(b,c)) - min (a, min (b, c)) ;
+	}
+	
+	void main () {
+		print (difference (10, 4, 7));
+	}
+
+}

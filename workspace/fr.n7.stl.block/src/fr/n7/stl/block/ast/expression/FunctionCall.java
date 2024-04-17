@@ -7,12 +7,14 @@ import java.util.Iterator;
 import java.util.List;
 
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
+import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.util.Logger;
 
 /**
  * Abstract Syntax Tree node for a function call expression.
@@ -68,16 +70,38 @@ public class FunctionCall implements Expression {
 	 * @see fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics collect is undefined in FunctionCall.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		boolean res = true;
+        //On récupère la fonction
+        Declaration dec = scope.get(this.name);
+        //Function bien définie
+        if (dec instanceof FunctionDeclaration) {
+            this.function = (FunctionDeclaration) dec;
+            if (this.arguments.size() != function.getParameters().size()) {
+                Logger.error("Pas le même nombre d'arguments");
+                return res && false;
+            } else {
+                for (Expression arg : this.arguments) {
+                    res = res && arg.collectAndBackwardResolve(scope);
+                }
+                return res;
+            }
+        } else {
+            Logger.error("Fonction " + this.name + " non définie.");
+            return false;
+        }
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "Semantics resolve is undefined in FunctionCall.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		boolean res = true;
+		for (Expression argument : this.arguments) {
+			res = res && argument.fullResolve(scope);
+		}
+		return res && this.function.fullResolve(scope);
 	}
 	
 	/* (non-Javadoc)

@@ -373,6 +373,11 @@ Declaration ::= Type:type Identifiant:identifiant UL_Egal Expression:valeur UL_P
  					}
 					RESULT = new ConstantDeclaration( identifiant.getLeft(), _type, valeur); 
 				:}
+		
+			| UL_Nombre_Entier:entier	                     
+             	{: 
+					RESULT = new IntegerValue( entier ); 
+				:}
 			;
 
 Instruction ::= Declaration:declaration
@@ -403,7 +408,6 @@ Instruction ::= Declaration:declaration
 				{: 
 					RESULT = new Iteration( condition,corps); 
 				:}
-			
 			;
 			
 Expressions ::= Expressions:expressions UL_Virgule Expression:expression 	
@@ -575,10 +579,6 @@ Expression ::= /* Affectable:affectable UL_Egal Expression:expression
              	{:
 					List<Expression> _parametres = new LinkedList<Expression>();
 					RESULT = new FunctionCall( nom, _parametres ); 
-				:}
-			| UL_Nombre_Entier:entier	                     
-             	{: 
-					RESULT = new IntegerValue( entier ); 
 				:}
 			| UL_Vrai                     
              	{: 

@@ -12,6 +12,7 @@ import fr.n7.stl.block.ast.scope.SymbolTable;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Represents a Block node in the Abstract Syntax Tree node for the Bloc language.
@@ -65,7 +66,6 @@ public class Block {
 		for (Instruction instruction : this.instructions) {
 			result = result && instruction.collectAndBackwardResolve(this.locals);
 		}
-		System.out.println("After collect :" + locals);
 		return result;
 	}
 	
@@ -81,7 +81,6 @@ public class Block {
 		for (Instruction instruction : this.instructions) {
 			result = result && instruction.fullResolve(this.locals);
 		}
-		System.out.println("After resolve :" + locals);
 		return result;
 	}
 
@@ -117,9 +116,11 @@ public class Block {
 	 */
 	public Fragment getCode(TAMFactory factory) {
 		// TO DO : juste mit ca provisoirement
-		Fragment fragments = null;
+		Fragment fragments = factory.createFragment();
 		for (Instruction instruction : this.instructions) {
-			fragments = instruction.getCode(factory);
+			Fragment fragment = instruction.getCode(factory);
+			fragments.append(fragment);
+			
 		}
 		return fragments;
 	}

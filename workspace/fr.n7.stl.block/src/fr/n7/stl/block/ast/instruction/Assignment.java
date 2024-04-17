@@ -12,6 +12,7 @@ import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Implementation of the Abstract Syntax Tree node for an array type.
@@ -87,8 +88,16 @@ public class Assignment implements Instruction, Expression {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Assignment.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = this.value.getCode(factory);
+		Fragment f2 = this.assignable.getCode(factory);
+		Fragment fragments = factory.createFragment();
+		
+		fragments.append(f);
+		fragments.append(f2);
+
+		return fragments;
+		
 	}
 
 }

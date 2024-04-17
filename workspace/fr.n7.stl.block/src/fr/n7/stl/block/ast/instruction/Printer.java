@@ -9,6 +9,7 @@ import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Library;
 import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
@@ -74,8 +75,27 @@ public class Printer implements Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Printer.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+
+        f.append(this.parameter.getCode(factory));
+
+        //if (this.parameter instanceof AccessibleExpression) {
+        //    _result.add(_factory.createLoadI(this.parameter.getType().length()));
+        //}
+
+        if (this.parameter.getType() == AtomicType.BooleanType) {
+            f.add(Library.BOut);
+        } else if (this.parameter.getType() == AtomicType.IntegerType ){
+            f.add(Library.IOut);
+        } else if (this.parameter.getType() == AtomicType.CharacterType) {
+            f.add(Library.COut);
+        } else if (this.parameter.getType() == AtomicType.StringType) {
+            //_result.add(Library.SOut);
+        }
+        f.add(factory.createLoadL('\n'));
+        f.add(Library.COut);
+        return f;
 	}
 
 }

@@ -9,6 +9,7 @@ import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
+import fr.n7.stl.tam.ast.impl.FragmentImpl;
 
 /**
  * Abstract Syntax Tree node for a conditional expression.
@@ -97,8 +98,22 @@ public class ConditionalExpression implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in ConditionalExpression.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		int id = factory.createLabelNumber();
+		if (this.elseExpression == null) {
+			f.add(factory.createJumpIf("endif" + id, 0));
+			f.append(this.thenExpression.getCode(factory));
+		}
+		else {
+			f.add(factory.createJumpIf("else" + id, 0));
+			f.append(this.thenExpression.getCode(factory));
+            f.add(factory.createJump("endif" + id));
+            f.addSuffix("else" + id);
+            f.append(this.elseExpression.getCode(factory));
+		}
+		f.addSuffix("endif" + id);
+		return f;
 	}
 
 }

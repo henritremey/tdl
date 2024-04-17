@@ -73,8 +73,16 @@ public class Iteration implements Instruction {
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in Iteration.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+        int id = factory.createLabelNumber();
+        f.append(this.condition.getCode(factory));
+        f.addPrefix("while" + id);
+        f.add(factory.createJumpIf("endwhile" + id, 0));
+        f.append(this.body.getCode(factory));
+        f.add(factory.createJump("while" + id));
+        f.addSuffix("endwhile" + id);
+        return f;
 	}
 
 }

@@ -1,4 +1,4 @@
 test {
-	int i = x;
+	int i = 0;
 	i = 3;
 }
