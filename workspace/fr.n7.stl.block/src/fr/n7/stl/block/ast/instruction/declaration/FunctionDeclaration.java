@@ -3,6 +3,7 @@
  */
 package fr.n7.stl.block.ast.instruction.declaration;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,6 +48,10 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	protected Block body;
 	
 	protected HierarchicalScope<Declaration> table;
+	
+	protected int offset;
+	
+	public static  List<Type> t_current = new ArrayList<Type>();
 	
 	/**
 	 * @return the parameters
@@ -136,6 +141,8 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	@Override
 	public boolean checkType() {
 		boolean res = true;
+		this.t_current.add(this.type);
+		System.out.println(this.t_current + " du functiondeclaration");
         for(ParameterDeclaration parameterDeclaration : this.parameters) {
             if (parameterDeclaration.getType().equalsTo(AtomicType.ErrorType)) {
             	res = false;
@@ -149,17 +156,27 @@ public class FunctionDeclaration implements Instruction, Declaration {
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#allocateMemory(fr.n7.stl.tam.ast.Register, int)
 	 */
 	@Override
-	public int allocateMemory(Register _register, int _offset) {
-		//return 0;
-		throw new SemanticsUndefinedException( "Semantics allocateMemory is undefined in FunctionDeclaration.");
+	public int allocateMemory(Register register, int offset) {
+		this.offset = 0;
+		for (ParameterDeclaration parameterDeclaration : this.parameters) {
+			this.offset += parameterDeclaration.getType().length();
+		}
+		this.body.allocateMemory(Register.LB, this.offset + 3);
+		return 0;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.instruction.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in FunctionDeclaration.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		f.append(this.body.getCode(factory));
+		f.addPrefix(this.name);
+		if (this.type != AtomicType.VoidType){
+            f.add(factory.createReturn(0, this.offset));
+        }
+		return f;
 	}
 
 }

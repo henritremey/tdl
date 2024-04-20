@@ -9,10 +9,13 @@ import java.util.List;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.instruction.Instruction;
 import fr.n7.stl.block.ast.instruction.declaration.FunctionDeclaration;
+import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
 import fr.n7.stl.block.ast.type.Type;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 import fr.n7.stl.util.Logger;
 
@@ -109,15 +112,27 @@ public class FunctionCall implements Expression {
 	 */
 	@Override
 	public Type getType() {
-		throw new SemanticsUndefinedException( "Semantics getType is undefined in FunctionCall.");
+		List<ParameterDeclaration> parameters = this.function.getParameters();
+		for (int i = 0; i< this.arguments.size(); i ++) {
+			if (!(this.arguments.get(i).getType().compatibleWith(parameters.get(i).getType()))){
+				return AtomicType.ErrorType;
+			}
+		}
+		return this.function.getType();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in FunctionCall.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		for (Expression e : this.arguments) {
+			f.append(e.getCode(factory));
+		}
+		f.add(factory.createCall(this.name, Register.SB));
+		
+		return f;
 	}
 
 }

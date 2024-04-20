@@ -90,9 +90,9 @@ public class Printer implements Instruction {
             f.add(Library.IOut);
         } else if (this.parameter.getType() == AtomicType.CharacterType) {
             f.add(Library.COut);
-        } else if (this.parameter.getType() == AtomicType.StringType) {
-            //_result.add(Library.SOut);
-        }
+        } /*else if (this.parameter.getType() == AtomicType.StringType) {
+            f.add(Library.SOut);
+        }*/
         f.add(factory.createLoadL('\n'));
         f.add(Library.COut);
         return f;

@@ -33,24 +33,24 @@ public class FunctionType implements Type {
 	 * @see fr.n7.stl.block.ast.Type#equalsTo(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public boolean equalsTo(Type _other) {
-		throw new SemanticsUndefinedException( "equalsTo is undefined in FunctionType.");
+	public boolean equalsTo(Type other) {
+		return other == this.result;
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public boolean compatibleWith(Type _other) {
-		throw new SemanticsUndefinedException( "compatibleWith is undefined in FunctionType.");
+	public boolean compatibleWith(Type other) {
+		return other.compatibleWith(this.result);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Type#merge(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public Type merge(Type _other) {
-		throw new SemanticsUndefinedException( "merge is undefined in FunctionType.");
+	public Type merge(Type other) {
+		return other.merge(this.result);
 	}
 
 	/* (non-Javadoc)

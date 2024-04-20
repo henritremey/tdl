@@ -5,6 +5,7 @@ package fr.n7.stl.block.ast.instruction;
 
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.Expression;
+import fr.n7.stl.block.ast.instruction.declaration.FunctionDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.tam.ast.Fragment;
@@ -19,7 +20,8 @@ import fr.n7.stl.tam.ast.TAMFactory;
 public class Return implements Instruction {
 
 	protected Expression value;
-
+	private int indice_tableau = 0;
+	
 	public Return(Expression _value) {
 		this.value = _value;
 	}
@@ -53,7 +55,11 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public boolean checkType() {
-		return true; // on peut return tout type 
+		System.out.println(FunctionDeclaration.t_current + " du return");
+		boolean res = this.value.getType().compatibleWith(FunctionDeclaration.t_current.get(this.indice_tableau));
+		this.indice_tableau++;
+		return res;
+		
 	}
 
 	/* (non-Javadoc)
@@ -61,15 +67,19 @@ public class Return implements Instruction {
 	 */
 	@Override
 	public int allocateMemory(Register _register, int _offset) {
-		throw new SemanticsUndefinedException("Semantics allocateMemory undefined in Return.");
+		return this.value.getType().length();
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.Instruction#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Return.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		f.append(this.value.getCode(factory));
+		f.add(factory.createReturn(this.value.getType().length(), this.value.getType().length()));
+		
+		return f;
 	}
 
 }
