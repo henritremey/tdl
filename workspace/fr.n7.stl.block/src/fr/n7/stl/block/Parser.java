@@ -776,7 +776,9 @@ class CUP$Parser$actions {
 						System.out.println("Allocate Memory : SB succeed");
 						bloc.allocateMemory(Register.ST, CUP$Parser$top);
 						System.out.println("Allocate Memory : ST succeed");
-						bloc.getCode(new TAMFactoryImpl());
+						Fragment code = bloc.getCode(new TAMFactoryImpl());
+						System.out.println("Code généré :");
+						System.out.println(code);
 					}
 					else {
 						System.out.println("Type failed." + tds);
