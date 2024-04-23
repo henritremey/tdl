@@ -1,4 +1,4 @@
-test {
+testTypeDef {
 typedef int Entier;
 int x = 1;
 Entier i = 1;

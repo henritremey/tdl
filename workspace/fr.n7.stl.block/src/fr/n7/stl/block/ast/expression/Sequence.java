@@ -80,6 +80,7 @@ public class Sequence implements Expression {
 	 */
 	@Override
 	public Type getType() {
+		System.out.println("appel sequence");
 		SequenceType _result = new SequenceType();
 		for (Expression _value : this.values) {
 			_result.add(_value.getType());
@@ -91,8 +92,13 @@ public class Sequence implements Expression {
 	 * @see fr.n7.stl.block.ast.Expression#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
 	@Override
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in Sequence.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		for (Expression e:values) {
+			f.append(e.getCode(factory));
+		}
+		
+		return f ;
 	}
 
 }

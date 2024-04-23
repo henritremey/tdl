@@ -1,4 +1,4 @@
-test {
+testRecord {
 
    typedef struct Pointi { int x; int y;} Point;
 

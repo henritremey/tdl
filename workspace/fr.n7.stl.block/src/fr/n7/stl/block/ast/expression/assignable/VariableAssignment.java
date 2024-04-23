@@ -77,4 +77,9 @@ public class VariableAssignment extends AbstractIdentifier implements Assignable
 		return f;
 	}
 
+	public VariableDeclaration getDeclaration() {
+		// TODO Auto-generated method stub
+		return this.declaration;
+	}
+
 }

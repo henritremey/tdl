@@ -1,4 +1,4 @@
-test {
+testTD {
 	int i = 1;
 	const int j = 2;
 	< int, int> p1 = < 3, 4>;

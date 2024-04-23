@@ -373,12 +373,8 @@ Declaration ::= Type:type Identifiant:identifiant UL_Egal Expression:valeur UL_P
  					}
 					RESULT = new ConstantDeclaration( identifiant.getLeft(), _type, valeur); 
 				:}
-		
-			| UL_Nombre_Entier:entier	                     
-             	{: 
-					RESULT = new IntegerValue( entier ); 
-				:}
-			;
+		;
+			
 
 Instruction ::= Declaration:declaration
 				{: 
@@ -612,5 +608,10 @@ Expression ::= /* Affectable:affectable UL_Egal Expression:expression
              	{: 
 					RESULT = new PointerAllocation( type ); 
 				:}
+			| UL_Nombre_Entier:entier                     
+             	{: 
+					RESULT = new IntegerValue( entier ); 
+				:}
+			
             ;
        

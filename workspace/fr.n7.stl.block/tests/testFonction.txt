@@ -1,0 +1,10 @@
+testFonction {
+	int max (int a, int b) {
+		int p = a + b;
+		return p;
+	}
+	void main () {
+		print (max (10, 4));
+	}
+
+}

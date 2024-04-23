@@ -8,6 +8,7 @@ import fr.n7.stl.block.ast.expression.AbstractAccess;
 import fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.tam.ast.Fragment;
+import fr.n7.stl.tam.ast.Register;
 import fr.n7.stl.tam.ast.TAMFactory;
 
 /**
@@ -36,8 +37,14 @@ public class ParameterAccess extends AbstractAccess {
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.AbstractUse#getCode(fr.n7.stl.tam.ast.TAMFactory)
 	 */
-	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException( "Semantics getCode is undefined in ParameterUse.");
+	public Fragment getCode(TAMFactory factory) {
+		Fragment f = factory.createFragment();
+		f.add(factory.createLoad(
+				Register.LB, 
+				this.declaration.getOffset(),
+				this.declaration.getType().length()));
+		f.addComment(this.toString());
+		return f;
 	}
 
 }

@@ -12,6 +12,7 @@ import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
 import fr.n7.stl.block.ast.scope.Scope;
 import fr.n7.stl.block.ast.type.declaration.FieldDeclaration;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a record type.
@@ -76,8 +77,8 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public boolean compatibleWith(Type _other) {
-		throw new SemanticsUndefinedException( "compatibleWith is undefined in RecordType.");
+	public boolean compatibleWith(Type other) {
+		return other.compatibleWith(this.getType());
 	}
 
 	/* (non-Javadoc)
@@ -207,4 +208,6 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	public Type getType() {
 		return this;
 	}
+	
+	
 }

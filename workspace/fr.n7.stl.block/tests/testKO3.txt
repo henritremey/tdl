@@ -1,0 +1,4 @@
+testKO3 {
+	boolean x =true;
+	int * pt = &x;
+}

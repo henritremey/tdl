@@ -83,7 +83,8 @@ public class FunctionCall implements Expression {
             if (this.arguments.size() != function.getParameters().size()) {
                 Logger.error("Pas le même nombre d'arguments");
                 return res && false;
-            } else {
+            }
+            else {
                 for (Expression arg : this.arguments) {
                     res = res && arg.collectAndBackwardResolve(scope);
                 }

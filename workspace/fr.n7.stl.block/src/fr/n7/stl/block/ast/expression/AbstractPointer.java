@@ -3,7 +3,10 @@ package fr.n7.stl.block.ast.expression;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.block.ast.type.AtomicType;
+import fr.n7.stl.block.ast.type.PointerType;
 import fr.n7.stl.block.ast.type.Type;
+import fr.n7.stl.util.Logger;
 
 /**
  * Common elements between left (Assignable) and right (Expression) end sides of assignments. These elements
@@ -38,16 +41,16 @@ public abstract class AbstractPointer implements Expression {
 	 * @see fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics collect is not implemented in AbstractPointer.");		
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		return this.pointer.collectAndBackwardResolve(scope);
 	}
 	
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException("Semantics resolve is not implemented in AbstractPointer.");		
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.pointer.fullResolve(scope);
 	}
 
 	/**
@@ -55,7 +58,13 @@ public abstract class AbstractPointer implements Expression {
 	 * @return Synthesized Type of the expression.
 	 */
 	public Type getType() {
-		throw new SemanticsUndefinedException("Semantics getType is not implemented in PointerAccess.");
+		if (!(this.pointer.getType() instanceof PointerType)) {
+			Logger.error(this.pointer + "has not a Pointer Type.");
+            return  AtomicType.ErrorType;
+            
+        } else {
+        	return ((PointerType)this.pointer.getType()).getPointedType();
+        }
 	}
 
 }

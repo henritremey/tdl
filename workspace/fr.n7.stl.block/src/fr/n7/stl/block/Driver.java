@@ -1,16 +1,24 @@
 package fr.n7.stl.block;
 
+import java.io.File;
+
 class Driver {
 
 	public static void main(String[] args) throws Exception {
-		Parser parser = null;
-		if (args.length == 0) {
-			parser = new Parser("testFonction.txt");
-			parser.parse();
-		} else {
-			for (String name : args) {
-				parser = new Parser( name );
+		File dossier = new File("/home/grinaldi/2A/TLA/tdl/workspace/fr.n7.stl.block/tests");
+		File[] f = dossier.listFiles();
+		for (int i = 0; i< f.length; i++) {
+			Parser parser = null;
+			if (args.length == 0) {
+				parser = new Parser(f[i].getAbsolutePath());
 				parser.parse();
+				System.out.println("==============================================");
+			} 
+			else {
+				for (String name : args) {
+					parser = new Parser( name );
+					parser.parse();
+				}
 			}
 		}
 	}

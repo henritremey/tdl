@@ -120,7 +120,8 @@ public class FunctionDeclaration implements Instruction, Declaration {
             	tableFonction.register(parameter);
             }
             this.table = tableFonction;
-            return this.body.collect(tableFonction);
+            System.out.println("table : " + table.toString() + " oui elle ");
+            return this.body.collect(this.table);
         } else {
             Logger.error("La fonction " + this.name + " est défini plusieurs fois");
             return false;

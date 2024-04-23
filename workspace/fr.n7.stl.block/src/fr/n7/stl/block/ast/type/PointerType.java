@@ -6,6 +6,7 @@ package fr.n7.stl.block.ast.type;
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.scope.Declaration;
 import fr.n7.stl.block.ast.scope.HierarchicalScope;
+import fr.n7.stl.util.Logger;
 
 /**
  * Implementation of the Abstract Syntax Tree node for a pointer type.
@@ -36,8 +37,14 @@ public class PointerType implements Type {
 	 * @see fr.n7.stl.block.ast.Type#compatibleWith(fr.n7.stl.block.ast.Type)
 	 */
 	@Override
-	public boolean compatibleWith(Type _other) {
-		throw new SemanticsUndefinedException("Semantics compatibleWith undefined in PointerType.");
+	public boolean compatibleWith(Type other) {
+		if (other instanceof PointerType) {
+			return ((PointerType) other).getPointedType().compatibleWith(this.getPointedType());
+		}
+		else {
+			Logger.error(other + " : Pas un type pointeur");
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)
@@ -53,7 +60,7 @@ public class PointerType implements Type {
 	 */
 	@Override
 	public int length() {
-		throw new SemanticsUndefinedException("Semantics length undefined in PointerType.");
+		return 1;
 	}
 
 	/* (non-Javadoc)
@@ -68,8 +75,8 @@ public class PointerType implements Type {
 	 * @see fr.n7.stl.block.ast.type.Type#resolve(fr.n7.stl.block.ast.scope.Scope)
 	 */
 	@Override
-	public boolean resolve(HierarchicalScope<Declaration> _scope) {
-		return this.element.resolve(_scope);
+	public boolean resolve(HierarchicalScope<Declaration> scope) {
+		return this.element.resolve(scope);
 	}
 
 }

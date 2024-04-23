@@ -40,16 +40,16 @@ public abstract class AbstractField implements Expression {
 	 * @see fr.n7.stl.block.ast.expression.Expression#collect(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "collect is undefined in AbstractField.");
+	public boolean collectAndBackwardResolve(HierarchicalScope<Declaration> scope) {
+		return this.record.collectAndBackwardResolve(scope);
 	}
 
 	/* (non-Javadoc)
 	 * @see fr.n7.stl.block.ast.expression.Expression#resolve(fr.n7.stl.block.ast.scope.HierarchicalScope)
 	 */
 	@Override
-	public boolean fullResolve(HierarchicalScope<Declaration> _scope) {
-		throw new SemanticsUndefinedException( "resolve is undefined in AbstractField.");
+	public boolean fullResolve(HierarchicalScope<Declaration> scope) {
+		return this.record.fullResolve(scope);
 	}
 
 	/**
@@ -57,7 +57,7 @@ public abstract class AbstractField implements Expression {
 	 * @return Synthesized Type of the expression.
 	 */
 	public Type getType() {
-		throw new SemanticsUndefinedException( "getType is undefined in FieldAccess.");
+		return this.field.getType();
 	}
 
 }
