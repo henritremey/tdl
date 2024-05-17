@@ -5,7 +5,7 @@ import java.io.File;
 class Driver {
 
 	public static void main(String[] args) throws Exception {
-		File dossier = new File("/home/grinaldi/2A/TLA/tdl/workspace/fr.n7.stl.block/tests");
+		File dossier = new File("/home/grinaldi/2A/TLA/tdl/workspace/fr.n7.stl.block/testsMoodle");
 		File[] f = dossier.listFiles();
 		for (int i = 0; i< f.length; i++) {
 			Parser parser = null;
