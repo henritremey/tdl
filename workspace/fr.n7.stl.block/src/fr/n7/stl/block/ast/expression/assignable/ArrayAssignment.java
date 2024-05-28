@@ -5,7 +5,9 @@ package fr.n7.stl.block.ast.expression.assignable;
 
 import fr.n7.stl.block.ast.SemanticsUndefinedException;
 import fr.n7.stl.block.ast.expression.AbstractArray;
+import fr.n7.stl.block.ast.expression.BinaryOperator;
 import fr.n7.stl.block.ast.expression.Expression;
+import fr.n7.stl.block.ast.instruction.declaration.VariableDeclaration;
 import fr.n7.stl.tam.ast.Fragment;
 import fr.n7.stl.tam.ast.TAMFactory;
 
@@ -29,7 +31,33 @@ public class ArrayAssignment extends AbstractArray implements AssignableExpressi
 	 */
 	@Override
 	public Fragment getCode(TAMFactory _factory) {
-		throw new SemanticsUndefinedException("Semantics getCode undefined in ArrayAssignment.");
+		Fragment f = _factory.createFragment();
+		
+		VariableDeclaration array =((VariableAssignment) this.array).getDeclaration();
+		
+		f.add(_factory.createLoad(array.getRegister(), array.getOffset(), this.getType().length()) );//le on charge le tableau (ie l'adresse 
+																									//du tableau est en sommet de pile)
+		f.append(this.index.getCode(_factory));
+		f.add(_factory.createLoadL(array.getType().length()));
+		f.add(TAMFactory.createBinaryOperator(BinaryOperator.Multiply));
+		f.add(TAMFactory.createBinaryOperator(BinaryOperator.Add));
+		
+		//à ce stade l'adresse en tête de liste est l'adresse de l'assignable (case du tableau) 
+		// dans lequel on doit stocker notre valeur
+		
+		f.add(_factory.createStoreI(this.getType().length()));
+		
+		
+		return f;
+		
+		
+		
+
+		
+		
+		
+		
+		
 	}
 
 	

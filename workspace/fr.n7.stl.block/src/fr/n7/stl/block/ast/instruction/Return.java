@@ -78,7 +78,6 @@ public class Return implements Instruction {
 		Fragment f = factory.createFragment();
 		f.append(this.value.getCode(factory));
 		f.add(factory.createReturn(this.value.getType().length(), this.value.getType().length()));
-		
 		return f;
 	}
 

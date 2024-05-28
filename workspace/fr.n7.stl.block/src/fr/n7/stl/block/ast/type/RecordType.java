@@ -78,7 +78,13 @@ public class RecordType implements Type, Declaration, Scope<FieldDeclaration> {
 	 */
 	@Override
 	public boolean compatibleWith(Type other) {
-		return other.compatibleWith(this.getType());
+		if (other instanceof RecordType) {
+			return true; // faux mais à améliorer
+		}
+		else {
+			Logger.error(other + " : Pas un type record");
+			return false;
+		}
 	}
 
 	/* (non-Javadoc)

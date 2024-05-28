@@ -1,0 +1,14 @@
+testFonction2 {
+	int fonction(int a, String b) {
+		int p = a;
+		print b;
+		print a;
+		return p;
+	}
+	
+	void main() {
+		int oui = fonction(0,"aboie");
+		print oui;
+	}
+
+}
