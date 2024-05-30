@@ -7,6 +7,7 @@
 		<item key="WizardProjectsImportPage.STORE_CLOSE_CREATED_PROJECTS_ID" value="false"/>
 		<item key="WizardProjectsImportPage.STORE_HIDE_CONFLICTING_PROJECTS_ID" value="false"/>
 		<list key="WizardProjectsImportPage.STORE_DIRECTORIES">
+			<item value="/home/grinaldi/2A/TLA/tdl/workspace/fr.n7.stl.block1"/>
 			<item value="/home/grinaldi/2A/TLA/workspace/fr.n7.stl.block"/>
 		</list>
 		<list key="WizardProjectsImportPage.STORE_ARCHIVES">

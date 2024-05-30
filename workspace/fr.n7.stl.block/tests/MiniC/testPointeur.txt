@@ -1,0 +1,6 @@
+testPointeur {
+	int x = 10;
+    int *pt = &x;
+    int w =*pt;
+    *pt = 54;
+}

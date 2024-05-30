@@ -1,4 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <qualifiedTypeNameHistroy>
+    <fullyQualifiedTypeName name="java.util.concurrent.atomic.AtomicBoolean"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.type.ArrayType"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.expression.BinaryOperator"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.tam.ast.TAMFactory"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.tam.ast.TAMInstruction"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.tam.ast.Library"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.scope.Declaration"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.instruction.Instruction"/>
+    <fullyQualifiedTypeName name="java.security.Signature"/>
     <fullyQualifiedTypeName name="fr.n7.stl.block.ast.scope.HierarchicalScope"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.Element.Element"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.type.AtomicType"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.type.PartialType"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.util.Pair"/>
+    <fullyQualifiedTypeName name="fr.n7.stl.block.ast.instruction.declaration.ParameterDeclaration"/>
+    <fullyQualifiedTypeName name="java.io.PrintStream"/>
 </qualifiedTypeNameHistroy>

@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import fr.n7.stl.block.ast.classe.ClassDeclaration;
+import fr.n7.stl.block.ast.classe.MethodDeclaration;
+
 /**
  * Implementation of a hierarchical scope using maps.
  * @author Marc Pantel
@@ -14,6 +17,9 @@ import java.util.Map.Entry;
  */
 public class SymbolTable implements HierarchicalScope<Declaration> {
 	
+	public static ClassDeclaration classDeclaration ;
+    public static MethodDeclaration methodDeclaration;
+    public static ClassDeclaration[] classesDeclaration;
 	private Map<String, Declaration> declarations;
 	private Scope<Declaration> context;
 
