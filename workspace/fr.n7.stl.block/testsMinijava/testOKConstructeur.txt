@@ -1,0 +1,13 @@
+class A {
+	private int id;
+	public  A(int i) {
+		this.id = i;
+	}
+}
+
+class B {
+	
+	public B() {
+		A a = new A();
+	}
+}

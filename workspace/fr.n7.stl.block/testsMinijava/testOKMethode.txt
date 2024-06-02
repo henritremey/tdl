@@ -1,0 +1,21 @@
+class A {
+	private int id = 0;
+
+	public  A() {
+		
+	}
+
+	public int m(int i) {
+		return i;
+	}
+}
+
+class B {
+	private int id = 1;
+	private int id2;
+
+	public B(int i) {
+		A a = new A();
+		this.id2 = a.m(i);
+	}
+}

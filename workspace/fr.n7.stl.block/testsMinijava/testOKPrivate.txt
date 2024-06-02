@@ -1,0 +1,9 @@
+class A {
+	private int id = 0;
+
+	private int id2;
+
+	public  A() {
+		this.id2 = this.id;
+	}
+}
