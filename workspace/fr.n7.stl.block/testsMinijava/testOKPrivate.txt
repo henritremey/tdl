@@ -7,3 +7,10 @@ class A {
 		this.id2 = this.id;
 	}
 }
+public class Main {
+	public static void main(String args[]) {
+		A a = new A();
+
+		
+	}
+}

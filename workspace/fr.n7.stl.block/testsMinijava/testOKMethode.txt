@@ -19,3 +19,12 @@ class B {
 		this.id2 = a.m(i);
 	}
 }
+
+public class Main {
+	public static void main(String args[]) {
+		A a = new A();
+		B b = new B(1);
+
+		
+	}
+}

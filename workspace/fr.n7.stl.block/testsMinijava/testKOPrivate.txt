@@ -15,3 +15,11 @@ class B {
 		this.id2 = a.id;
 	}
 }
+
+public class Main {
+	public static void main(String args[]) {
+		Pair<Integer, String> pair = new Pair<>(1, "Apple");
+
+		
+	}
+}
